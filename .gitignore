@@ -1,1 +1,11 @@
 .DS_Store
+
+# Local tooling / editor config
+.claude/
+
+# Python
+__pycache__/
+*.pyc
+
+# Raw MovieLens data — re-downloaded by webapp/precompute.py on demand
+webapp/ml-latest-small/

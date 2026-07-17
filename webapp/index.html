@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CineMatch · Find your next favorite film</title>
+  <meta name="description" content="Tap the films you love, and CineMatch finds what to watch next — powered by item-item collaborative filtering on MovieLens." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500;1,9..144,900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <!-- atmosphere -->
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <!-- ░░ TOP BAR ░░ -->
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="CineMatch home">
+      <span class="brand__reel" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.1" fill="currentColor"/><circle cx="12" cy="6" r="1.5" fill="currentColor"/><circle cx="12" cy="18" r="1.5" fill="currentColor"/><circle cx="6" cy="12" r="1.5" fill="currentColor"/><circle cx="18" cy="12" r="1.5" fill="currentColor"/></svg>
+      </span>
+      <span class="brand__name">Cine<em>Match</em></span>
+    </a>
+
+    <nav class="segmented" role="tablist" aria-label="Views">
+      <button class="seg is-active" data-view="discover" role="tab" aria-selected="true">Discover</button>
+      <button class="seg" data-view="foryou" role="tab" aria-selected="false">
+        For&nbsp;You <span class="seg__badge" id="matchCount" hidden>0</span>
+      </button>
+    </nav>
+
+    <div class="search">
+      <svg class="search__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="searchInput" type="search" placeholder="Search 5,000 films…" autocomplete="off" spellcheck="false" aria-label="Search films" />
+    </div>
+  </header>
+
+  <main>
+    <!-- ░░ DISCOVER VIEW ░░ -->
+    <section id="view-discover" class="view is-active">
+      <div class="hero">
+        <p class="hero__eyebrow">A night in, sorted</p>
+        <h1 class="hero__title">What have you <em>loved</em> lately?</h1>
+        <p class="hero__sub">Tap the films that stuck with you. The more you pick, the sharper your matches get — CineMatch learns your taste from the crowd of 600 real viewers who rated these together.</p>
+        <div class="hero__actions">
+          <button class="btn btn--ghost" id="surpriseBtn">
+            <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path d="M4 4h6l10 16h0M20 4h-6L4 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="7" cy="17" r="1.4" fill="currentColor"/><circle cx="17" cy="7" r="1.4" fill="currentColor"/></svg>
+            Surprise me
+          </button>
+          <span class="hero__hint" id="pickHint">Pick a few to begin ↓</span>
+        </div>
+      </div>
+
+      <div class="chips" id="genreChips" role="group" aria-label="Filter by genre"></div>
+
+      <div class="grid-head">
+        <h2 class="grid-head__title" id="gridTitle">Most-loved on MovieLens</h2>
+        <span class="grid-head__count" id="gridCount"></span>
+      </div>
+
+      <div class="grid" id="movieGrid"></div>
+      <div class="grid-empty" id="gridEmpty" hidden>
+        <p>No films match that search.</p>
+      </div>
+      <div id="scrollSentinel" class="sentinel"></div>
+    </section>
+
+    <!-- ░░ FOR YOU VIEW ░░ -->
+    <section id="view-foryou" class="view">
+      <div class="foryou-empty" id="foryouEmpty">
+        <div class="foryou-empty__reel" aria-hidden="true">🎞️</div>
+        <h2>Your reel is empty</h2>
+        <p>Head back to <button class="linklike" data-goto="discover">Discover</button> and tap a few films you love. Your personalized matches will screen right here.</p>
+      </div>
+
+      <div id="foryouContent" hidden>
+        <div class="taste">
+          <div class="taste__left">
+            <p class="taste__eyebrow">Tonight's screening, tuned to you</p>
+            <h1 class="taste__title">Your Matches</h1>
+            <p class="taste__based" id="tasteBased"></p>
+          </div>
+          <div class="taste__genres" id="tasteGenres" aria-label="Your top genres"></div>
+        </div>
+        <div class="grid grid--rec" id="recGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ░░ FILMSTRIP PICKS TRAY ░░ -->
+  <div class="filmstrip" id="filmstrip" data-empty="true">
+    <div class="filmstrip__perf filmstrip__perf--top" aria-hidden="true"></div>
+    <div class="filmstrip__body">
+      <div class="filmstrip__label">
+        <span class="filmstrip__count" id="pickCount">0</span>
+        <span class="filmstrip__word">picks</span>
+      </div>
+      <div class="filmstrip__reel" id="pickReel">
+        <span class="filmstrip__placeholder" id="pickPlaceholder">Your picks slot in here, like frames on a reel 🎬</span>
+      </div>
+      <div class="filmstrip__actions">
+        <button class="btn btn--text" id="clearBtn" hidden>Clear</button>
+        <button class="btn btn--primary" id="matchesBtn" disabled>
+          See my matches
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="filmstrip__perf filmstrip__perf--bottom" aria-hidden="true"></div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="credit">
+    <span>Built on the <strong>MovieLens</strong> latest-small dataset (GroupLens) · item-item collaborative filtering with Pearson similarity + significance weighting — the same recipe as the PySpark model, served entirely in your browser.</span>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
