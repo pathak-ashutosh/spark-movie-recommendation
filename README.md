@@ -7,13 +7,14 @@ A hybrid movie recommender built on **Apache Spark / PySpark**, plus **CineMatch
   <img alt="PySpark" src="https://img.shields.io/badge/Apache_Spark-MLlib-E25A1C?logo=apachespark&logoColor=white&style=flat-square">
   <img alt="Dataset" src="https://img.shields.io/badge/MovieLens-25M_%2F_latest--small-ffb43d?style=flat-square">
   <img alt="UI" src="https://img.shields.io/badge/UI-zero--backend-46a758?style=flat-square">
+  <a href="https://cinematch-peach.vercel.app"><img alt="Live demo" src="https://img.shields.io/badge/%E2%96%B6_live_demo-cinematch--peach.vercel.app-000?style=flat-square&logo=vercel&logoColor=white"></a>
 </p>
 
 There are **two ways** to explore this project:
 
 | | What | Where |
 |---|---|---|
-| 🍿 **Play** | CineMatch — pick films you love, get matches in the browser | [`webapp/`](webapp/) |
+| 🍿 **Play** | CineMatch — pick films you love, get matches in the browser | **[Live demo ↗](https://cinematch-peach.vercel.app)** · [`webapp/`](webapp/) |
 | 🔬 **Study** | The Spark research pipeline — ALS + item-item CF + RF hybrid | [`movie_recommender_system.py`](movie_recommender_system.py) |
 
 ---

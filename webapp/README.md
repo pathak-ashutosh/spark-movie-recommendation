@@ -3,6 +3,8 @@
 A fun, zero-backend web UI on top of this project's recommender. Tap the films
 you love; CineMatch finds what to watch next and tells you **why**.
 
+**▶ Live demo: https://cinematch-peach.vercel.app**
+
 It reuses the project's core idea — **item-item collaborative filtering with
 Pearson similarity** — but precomputes it locally (no Spark/HDFS) and serves the
 result entirely in the browser.
