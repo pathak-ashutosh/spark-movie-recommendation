@@ -1,0 +1,6 @@
+# Don't upload/serve the raw dataset or the offline build script.
+# data.js (the derived, app-facing data) is all the site needs.
+ml-latest-small/
+precompute.py
+README.md
+.vercel

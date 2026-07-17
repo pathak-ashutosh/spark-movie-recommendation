@@ -9,3 +9,6 @@ __pycache__/
 
 # Raw MovieLens data — re-downloaded by webapp/precompute.py on demand
 webapp/ml-latest-small/
+
+# Vercel
+.vercel/
